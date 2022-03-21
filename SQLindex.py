@@ -1,7 +1,7 @@
 from importlib import import_module
 from multiprocessing import connection
-from User import User
-from Post import Post
+#from User import User
+#from Post import Post
 
 import sqlite3
 connection = sqlite3.connect('coffee.db')
@@ -42,6 +42,3 @@ def remove_user(user):
     with connection:
         cursor.execute("DELETE from employees WHERE firstName = :firstName AND lastName = :lastName",
                        {'firstName': user.firstName, 'lastName': user.lastName})
-
-
-get_user_by_name("Sharma")
