@@ -1,7 +1,7 @@
 from importlib import import_module
 from multiprocessing import connection
-#from User import User
-#from Post import Post
+from User import User
+from Post import Post
 
 import sqlite3
 connection = sqlite3.connect('coffee.db')

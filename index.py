@@ -1,6 +1,6 @@
 from tokenize import String
-#from User import User
-#from Post import Post
+from User import User
+from Post import Post
 import SQLindex
 
 userid = None
@@ -8,7 +8,7 @@ userid = None
 
 def start():
     print("Velkommen til Kaffeapp\n")
-    loglag = input("Logg inn skriv 1 \nLag bruker skriv 2")
+    loglag = input("Logg inn: 1 \nLag bruker: 2\n")
     if loglag == "1":
         logIn()
     elif loglag == "2":
