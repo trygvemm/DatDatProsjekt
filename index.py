@@ -1,13 +1,13 @@
 from tokenize import String
+from datetime import datetime
 from User import User
 from Post import Post
 import SQLindex
 
 userid = None
 
-
 def start():
-    print("Velkommen til Kaffeapp\n")
+    print("-----Velkommen til Kaffeapp-----\n")
     loglag = input("Logg inn: 1 \nLag bruker: 2\n")
     if loglag == "1":
         logIn()
@@ -15,6 +15,7 @@ def start():
         makeUser()
 
 def makeUser():
+    print("----------LAG BRUKER----------")
     mail = input("Skriv inn mail: ")
     firstName = input("Skriv inn fornavn: ")
     lastName = input("Skriv inn etternavn: ")
@@ -24,7 +25,7 @@ def makeUser():
     logIn()
 
 def logIn():
-    print("LOGG INN:")
+    print("----------LOGG INN----------")
     mail = input("Skriv inn mail: ")
     password = input("Skriv inn passord: ")
     dbPassword = SQLindex.get_password(mail)
@@ -32,6 +33,7 @@ def logIn():
     if (dbPassword != None):
         if(dbPassword[0] == password):
             print("Du er logget inn")
+            userid = mail
             menu()
         else:
             print("Feil passord")
@@ -41,12 +43,24 @@ def logIn():
         start()
 
 def menu():
+    print("----------Meny----------")
     choose = input("Lag Post: 1\nSe post: 2\nToppliste smakt flest kaffe: 3\nMest for pengene: 4\nFinn i beskrivelse: 5\nLand: 6\n")
     if choose == "1":
         post()
     else:
         print("under dev")
         menu()
+
+def post():
+    print("----------LAG POST----------")
+    coffee = input("Skriv inn kaffenavn: ")
+    roastery = input("Skriv inn brennerinavn: ")
+    score = input("Skriv inn score (1-10): ")
+    note = input("Skriv inn beskrivelse: ")
+
+    coffeid = SQLindex.getCoffeeId(coffee,roastery)
+    post = Post(userid,coffeid,note,score,)
+
 
 
 start()
