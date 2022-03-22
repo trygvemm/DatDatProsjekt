@@ -1,20 +1,32 @@
 from tokenize import String
-#from User import User
-#from Post import Post
+from datetime import date
+from User import User
+from Post import Post
 import SQLindex
 
-userid = None
+# tid
+now = date.today()
+date = now.strftime("%d-%m-%Y")
 
+userid = ""
 
 def start():
-    print("Velkommen til Kaffeapp\n")
-    loglag = input("Logg inn skriv 1 \nLag bruker skriv 2")
+    print("-----Velkommen til Kaffeapp-----\n")
+    loglag = input("Logg inn: 1 \nLag bruker: 2\nSkip: 3\n")
     if loglag == "1":
         logIn()
     elif loglag == "2":
         makeUser()
+    elif loglag == "3":
+        userid = "Sunil@gmail.com"
+        print("Du er logget inn som SUNIL")
+        menu()
+    else:
+        print("feil input")
+        start()
 
 def makeUser():
+    print("----------LAG BRUKER----------")
     mail = input("Skriv inn mail: ")
     firstName = input("Skriv inn fornavn: ")
     lastName = input("Skriv inn etternavn: ")
@@ -24,7 +36,7 @@ def makeUser():
     logIn()
 
 def logIn():
-    print("LOGG INN:")
+    print("----------LOGG INN----------")
     mail = input("Skriv inn mail: ")
     password = input("Skriv inn passord: ")
     dbPassword = SQLindex.get_password(mail)
@@ -32,6 +44,7 @@ def logIn():
     if (dbPassword != None):
         if(dbPassword[0] == password):
             print("Du er logget inn")
+            userid = mail
             menu()
         else:
             print("Feil passord")
@@ -41,12 +54,37 @@ def logIn():
         start()
 
 def menu():
-    choose = input("Lag Post: 1\nSe post: 2\nToppliste smakt flest kaffe: 3\nMest for pengene: 4\nFinn i beskrivelse: 5\nLand: 6\n")
+    print("----------MENY----------")
+    print(userid)
+    choose = input(
+        "Lag Post: 1\nSe post: 2\nToppliste smakt flest kaffe: 3\nMest for pengene: 4\nFinn i beskrivelse: 5\nLand: 6\n")
     if choose == "1":
-        post()
+        makePost()
+    if choose == "2":
+        seePost()
     else:
         print("under dev")
         menu()
 
+def makePost():
+    print("----------LAG POST----------")
+    userid = 'Sunil@gmail.com'
+    coffee = input("Skriv inn kaffenavn: ")
+    roastery = input("Skriv inn brennerinavn: ")
+    score = int(input("Skriv inn score (1-10): "))
+    note = input("Skriv inn beskrivelse: ")
+
+    coffeeid = SQLindex.getCoffeeID(coffee, roastery)
+    if coffeeid != None:
+        post = Post(userid, coffeeid[0], note, score, date)
+        SQLindex.insert_post(post)
+        print("Suksess, du har laget en post")
+        menu()
+    else:
+        print("Feil verdier for kaffenavn eller kaffebrenneri")
+        makePost()
+
+def seePost():
+    print("----------SE POST----------")
 
 start()
