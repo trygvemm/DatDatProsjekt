@@ -18,6 +18,12 @@ def insert_user(user):
                        'mail': user.mail, 'password': user.password, 'firstName': user.firstName, 'lastName': user.lastName})
 
 
+def insert_post(post):
+    with connection:
+        cursor.execute("INSERT INTO Post VALUES (:postID, :mail, :coffeeID, :note, :score, :date)", {
+                       'postID': post.postID, 'mail': post.mail, 'coffeeID': post.coffeeID, 'note': post.note, 'score': post.score, 'date': post.date})
+
+
 def get_user_by_name(lastNamename):
     cursor.execute(
         "SELECT * FROM User WHERE lastName=:lastName", {'lastName': lastNamename})
@@ -36,6 +42,12 @@ def update_post(user, pay):
         cursor.execute("""UPDATE employees SET pay = :pay
                     WHERE firstName = :firstName AND lastName = :lastName""",
                        {'firstName': user.firstName, 'lastName': user.lastName, 'pay': pay})
+
+
+def getCoffeeID(Cname, Rname):
+    cursor.execute(
+        "SELECT coffeeID From Coffee WHERE coffeeName = :Cname AND roasteryID = (SELECT roasteryID from CoffeeRoastery WHERE name = :name)", {'Cname': Cname, 'name': Rname})
+    return cursor.fetchone()
 
 
 def remove_user(user):

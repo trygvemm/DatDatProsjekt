@@ -4,11 +4,12 @@ from User import User
 from Post import Post
 import SQLindex
 
-#tid
+# tid
 now = date.today()
 date = now.strftime("%d-%m-%Y")
 
 userid = None
+
 
 def start():
     print("-----Velkommen til Kaffeapp-----\n")
@@ -17,6 +18,7 @@ def start():
         logIn()
     elif loglag == "2":
         makeUser()
+
 
 def makeUser():
     print("----------LAG BRUKER----------")
@@ -27,6 +29,7 @@ def makeUser():
     user = User(mail, password, firstName, lastName)
     SQLindex.insert_user(user)
     logIn()
+
 
 def logIn():
     print("----------LOGG INN----------")
@@ -46,14 +49,17 @@ def logIn():
         print(f"Ingen brukere med mail: {mail}")
         start()
 
+
 def menu():
     print("----------Meny----------")
-    choose = input("Lag Post: 1\nSe post: 2\nToppliste smakt flest kaffe: 3\nMest for pengene: 4\nFinn i beskrivelse: 5\nLand: 6\n")
+    choose = input(
+        "Lag Post: 1\nSe post: 2\nToppliste smakt flest kaffe: 3\nMest for pengene: 4\nFinn i beskrivelse: 5\nLand: 6\n")
     if choose == "1":
         post()
     else:
         print("under dev")
         menu()
+
 
 def post():
     print("----------LAG POST----------")
@@ -62,8 +68,8 @@ def post():
     score = input("Skriv inn score (1-10): ")
     note = input("Skriv inn beskrivelse: ")
 
-    coffeid = SQLindex.getCoffeeId(coffee,roastery)
-    post = Post(userid,coffeid,note,score,date)
+    coffeeid = SQLindex.getCoffeeID(coffee, roastery)
+    post = Post(userid, coffeeid, note, score, date)
     SQLindex.insert_post(post)
 
 
