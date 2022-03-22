@@ -18,8 +18,8 @@ def insert_user(user):
 
 def insert_post(post):
     with connection:
-        cursor.execute("INSERT INTO Post VALUES (:postID, :mail, :coffeeID, :note, :score, :date)", {
-                       'postID': post.postID, 'mail': post.mail, 'coffeeID': post.coffeeID, 'note': post.note, 'score': post.score, 'date': post.date})
+        cursor.execute("INSERT INTO Post (mail, coffeeID, note, score, date) VALUES (:mail, :coffeeID, :note, :score, :date)", {
+        'mail': "Sunil@gmail.com", 'coffeeID': post.coffeeID, 'note': post.note, 'score': post.score, 'date': post.date})
 
 def get_user_by_name(lastNamename):
     cursor.execute(
@@ -27,7 +27,6 @@ def get_user_by_name(lastNamename):
     return cursor.fetchall()
 
 def get_password(mail):
-    print("kjør a")
     cursor.execute(
         "SELECT password FROM User WHERE mail=:mail", {'mail': mail})
     return cursor.fetchone()
