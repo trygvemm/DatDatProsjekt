@@ -1,8 +1,12 @@
 from tokenize import String
-from datetime import datetime
+from datetime import date
 from User import User
 from Post import Post
 import SQLindex
+
+#tid
+now = date.today()
+date = now.strftime("%d-%m-%Y")
 
 userid = None
 
@@ -59,8 +63,8 @@ def post():
     note = input("Skriv inn beskrivelse: ")
 
     coffeid = SQLindex.getCoffeeId(coffee,roastery)
-    post = Post(userid,coffeid,note,score,)
-
+    post = Post(userid,coffeid,note,score,date)
+    SQLindex.insert_post(post)
 
 
 start()
