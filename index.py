@@ -11,6 +11,7 @@ date = now.strftime("%d-%m-%Y")
 
 userid = ""
 
+userid = ""
 
 def start():
     print("-----Velkommen til Kaffeapp-----\n")
@@ -77,6 +78,26 @@ def menu():
         print("under dev")
         menu()
 
+def makePost():
+    print("----------LAG POST----------")
+    userid = 'Sunil@gmail.com'
+    coffee = input("Skriv inn kaffenavn: ")
+    roastery = input("Skriv inn brennerinavn: ")
+    score = int(input("Skriv inn score (1-10): "))
+    note = input("Skriv inn beskrivelse: ")
+
+    coffeeid = SQLindex.getCoffeeID(coffee, roastery)
+    if coffeeid != None:
+        post = Post(userid, coffeeid[0], note, score, date)
+        SQLindex.insert_post(post)
+        print("Suksess, du har laget en post")
+        menu()
+    else:
+        print("Feil verdier for kaffenavn eller kaffebrenneri")
+        makePost()
+
+def seePost():
+    print("----------SE POST----------")
 
 def makePost():
     print("----------LAG POST----------")

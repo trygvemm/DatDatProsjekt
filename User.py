@@ -1,7 +1,5 @@
 
-from msilib.schema import Class
-
-
+#from msilib.schema import Class
 class User:
 
     def __init__(self, mail, password, firstName, lastName):

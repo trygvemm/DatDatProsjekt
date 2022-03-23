@@ -22,30 +22,44 @@ print(chk_conn(connection))
 #cursor.execute("UPDATE tabellnavn SET verdi = '' WHERE ID = tall")
 #cursor.execute("DELETE FROM tabellnavn WHERE ID = tall")
 
-
 def insert_user(user):
     with connection:
         cursor.execute("INSERT INTO User VALUES (:mail, :password, :firstName, :lastName)", {
                        'mail': user.mail, 'password': user.password, 'firstName': user.firstName, 'lastName': user.lastName})
 
+def insert_post(post):
+    with connection:
+        cursor.execute("INSERT INTO Post (mail, coffeeID, note, score, date) VALUES (:mail, :coffeeID, :note, :score, :date)", {
+        'mail': "Sunil@gmail.com", 'coffeeID': post.coffeeID, 'note': post.note, 'score': post.score, 'date': post.date})
 
 def insert_post(post):
     with connection:
         cursor.execute("INSERT INTO Post (mail, coffeeID, note, score, date) VALUES (:mail, :coffeeID, :note, :score, :date)", {
             'mail': post.mail[0], 'coffeeID': post.coffeeID[0], 'note': post.note[0], 'score': post.score[0], 'date': post.date})
 
-
 def get_password(mail):
     cursor.execute(
         "SELECT password FROM User WHERE mail=:mail", {'mail': mail})
     return cursor.fetchone()
 
+<<<<<<< HEAD
 
 def getCoffeeID(Cname, Rname):
     cursor.execute(
         "SELECT coffeeID From Coffee WHERE coffeeName = :Cname AND roasteryID = (SELECT roasteryID from CoffeeRoastery WHERE name = :name)", {'Cname': Cname, 'name': Rname})
     return cursor.fetchone()
+=======
+def update_post(user, pay):
+    with connection:
+        cursor.execute("""UPDATE employees SET pay = :pay
+                    WHERE firstName = :firstName AND lastName = :lastName""",
+                       {'firstName': user.firstName, 'lastName': user.lastName, 'pay': pay})
+>>>>>>> main
 
+def getCoffeeID(Cname, Rname):
+    cursor.execute(
+        "SELECT coffeeID From Coffee WHERE coffeeName = :Cname AND roasteryID = (SELECT roasteryID from CoffeeRoastery WHERE name = :name)", {'Cname': Cname, 'name': Rname})
+    return cursor.fetchone()
 
 def get_mostcoffee():
     cursor.execute(
