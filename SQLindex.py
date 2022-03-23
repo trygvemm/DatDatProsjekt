@@ -42,20 +42,6 @@ def get_password(mail):
         "SELECT password FROM User WHERE mail=:mail", {'mail': mail})
     return cursor.fetchone()
 
-<<<<<<< HEAD
-
-def getCoffeeID(Cname, Rname):
-    cursor.execute(
-        "SELECT coffeeID From Coffee WHERE coffeeName = :Cname AND roasteryID = (SELECT roasteryID from CoffeeRoastery WHERE name = :name)", {'Cname': Cname, 'name': Rname})
-    return cursor.fetchone()
-=======
-def update_post(user, pay):
-    with connection:
-        cursor.execute("""UPDATE employees SET pay = :pay
-                    WHERE firstName = :firstName AND lastName = :lastName""",
-                       {'firstName': user.firstName, 'lastName': user.lastName, 'pay': pay})
->>>>>>> main
-
 def getCoffeeID(Cname, Rname):
     cursor.execute(
         "SELECT coffeeID From Coffee WHERE coffeeName = :Cname AND roasteryID = (SELECT roasteryID from CoffeeRoastery WHERE name = :name)", {'Cname': Cname, 'name': Rname})
@@ -66,14 +52,12 @@ def get_mostcoffee():
         "SELECT User.firstName, COUNT(DISTINCT Post.coffeeID) AS total from Post Inner join User on Post.mail = User.mail group by User.firstName ORDER BY total DESC;")
     return cursor.fetchall()
 
-
 def get_mostvalue():
     cursor.execute(
         "SELECT CoffeeRoastery.name, Coffee.coffeeName, Coffee.priceKG, AVG(Post.score), Coffee.priceKG/AVG(Post.score) AS prisperpoeng from Post INNER JOIN Coffee ON Coffee.coffeeID = Post.coffeeID INNER JOIN CoffeeRoastery ON CoffeeRoastery.roasteryID = Coffee.roasteryID GROUP BY Coffee.coffeeName ORDER BY prisperpoeng;")
     return cursor.fetchall()
 
-
 def get_search(search):
     cursor.execute(
-        "SELECT Coffee.coffeeName, CoffeeRoastery.name FROM Coffee INNER JOIN CoffeeRoastery ON Coffee.roasteryID = CoffeeRoastery.roasteryID INNER JOIN Post ON Post.coffeeID = Coffee.coffeeID WHERE Post.note LIKE '%' + @search + '%' OR Coffee.description LIKE '%' + @search + '%'", {'search': search})
+        "SELECT DISTINCT Coffee.coffeeName, CoffeeRoastery.name FROM Coffee INNER JOIN CoffeeRoastery ON Coffee.roasteryID = CoffeeRoastery.roasteryID INNER JOIN Post ON Post.coffeeID = Coffee.coffeeID WHERE Post.note LIKE :search OR Coffee.description LIKE :search", {'search': '%'+search+'%'})
     return cursor.fetchall()

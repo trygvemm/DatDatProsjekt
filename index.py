@@ -11,8 +11,6 @@ date = now.strftime("%d-%m-%Y")
 
 userid = ""
 
-userid = ""
-
 def start():
     print("-----Velkommen til Kaffeapp-----\n")
     loglag = input("Logg inn: 1 \nLag bruker: 2\nSkip: 3\n")
@@ -21,7 +19,7 @@ def start():
     elif loglag == "2":
         makeUser()
     elif loglag == "3":
-        userid = "Sunil@gmail.com"
+        userid = "Bharat@gmail.com"
         print("Du er logget inn som SUNIL")
         menu()
     else:
@@ -80,7 +78,7 @@ def menu():
 
 def makePost():
     print("----------LAG POST----------")
-    userid = 'Sunil@gmail.com'
+    userid = 'Bharat@gmail.com'
     coffee = input("Skriv inn kaffenavn: ")
     roastery = input("Skriv inn brennerinavn: ")
     score = int(input("Skriv inn score (1-10): "))
@@ -101,7 +99,7 @@ def seePost():
 
 def makePost():
     print("----------LAG POST----------")
-    userid = 'Trygve@gmail.com'
+    userid = 'per@gmail.com'
     coffee = input("Skriv inn kaffenavn: ")
     roastery = input("Skriv inn brennerinavn: ")
     score = int(input("Skriv inn score (1-10): "))
@@ -146,13 +144,11 @@ def mostValue():
 def search():
     print("----------SØK ETTER KAFFEBESKRIVELSE----------")
     usr = input("Søk: ")
-    print(usr)
     list = SQLindex.get_search(usr)
     PT = PrettyTable()
     PT.field_names = ["Brennerinavn", "Kaffenavn"]
     for i in range(len(list)):
         PT.add_row(list[i])
-        print(list[i])
     print(PT)
     menu()
 
