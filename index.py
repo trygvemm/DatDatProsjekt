@@ -11,7 +11,7 @@ date = now.strftime("%d-%m-%Y")
 
 userid = ""
 
-def start():
+def start(userid):
     print("-----Velkommen til Kaffeapp-----\n")
     loglag = input("Logg inn: 1 \nLag bruker: 2\nSkip: 3\n")
     if loglag == "1":
@@ -21,10 +21,10 @@ def start():
     elif loglag == "3":
         userid = "Bharat@gmail.com"
         print("Du er logget inn som SUNIL")
-        menu()
+        menu(userid)
     else:
         print("feil input")
-        start()
+        start(userid)
 
 def makeUser():
     print("----------LAG BRUKER----------")
@@ -41,43 +41,41 @@ def logIn():
     mail = input("Skriv inn mail: ")
     password = input("Skriv inn passord: ")
     dbPassword = SQLindex.get_password(mail)
-
     if (dbPassword != None):
         if(dbPassword[0] == password):
             print("Du er logget inn")
             userid = mail
-            menu()
+            menu(userid)
         else:
             print("Feil passord")
             logIn()
     else:
         print(f"Ingen brukere med mail: {mail}")
-        start()
+        start(userid)
 
-def menu():
+def menu(userid):
     print("----------MENY----------")
     print(userid)
     choose = input(
         "Lag Post: 1\nListe over hvem som har smakt flest kaffer: 2\nBest kaffe for pengene: 3\nSøk i beskrivelse: 4\nLand: 5\nEXIT: 6\n")
     if choose == "1":
-        makePost()
+        makePost(userid)
     elif choose == "2":
-        topList()
+        topList(userid)
     elif choose == "3":
-        mostValue()
+        mostValue(userid)
     elif choose == "4":
-        search()
+        search(userid)
     elif choose == "5":
-        search_not_washed()
+        search_not_washed(userid)
     elif choose == "6":
         exit()
     else:
         print("under dev")
-        menu()
+        menu(userid)
 
-def makePost():
+def makePost(userid):
     print("----------LAG POST----------")
-    userid = 'Bharat@gmail.com'
     coffee = input("Skriv inn kaffenavn: ")
     roastery = input("Skriv inn brennerinavn: ")
     score = int(input("Skriv inn score (1-10): "))
@@ -88,41 +86,22 @@ def makePost():
         post = Post(userid, coffeeid[0], note, score, date)
         SQLindex.insert_post(post)
         print("Suksess, du har laget en post")
-        menu()
+        menu(userid)
     else:
         print("Feil verdier for kaffenavn eller kaffebrenneri")
-        makePost()
+        makePost(userid)
 
-def makePost():
-    print("----------LAG POST----------")
-    userid = 'per@gmail.com'
-    coffee = input("Skriv inn kaffenavn: ")
-    roastery = input("Skriv inn brennerinavn: ")
-    score = int(input("Skriv inn score (1-10): "))
-    note = input("Skriv inn beskrivelse: ")
-
-    coffeeid = SQLindex.getCoffeeID(coffee, roastery)
-    if coffeeid != None:
-        post = Post(userid, coffeeid[0], note, score, date)
-        SQLindex.insert_post(post)
-        print("Suksess, du har laget en post")
-        menu()
-    else:
-        print("Feil verdier for kaffenavn eller kaffebrenneri")
-        makePost()
-
-def topList():
+def topList(userid):
     print("----------TOPPLISTE----------")
-    # så langt i år????????
     list = SQLindex.get_mostcoffee()
     PT = PrettyTable()
     PT.field_names = ["Fornavn", "Antall smakt kaffer"]
     for i in range(len(list)):
         PT.add_row(list[i])
     print(PT)
-    menu()
+    menu(userid)
 
-def mostValue():
+def mostValue(userid):
     print("----------BEST KAFFE FOR PENGENE----------")
     list = SQLindex.get_mostvalue()
     PT = PrettyTable()
@@ -131,10 +110,10 @@ def mostValue():
     for i in range(len(list)):
         PT.add_row(list[i])
     print(PT)
-    menu()
+    menu(userid)
 
 
-def search():
+def search(userid):
     print("----------SØK ETTER KAFFEBESKRIVELSE----------")
     usr = input("Søk: ")
     list = SQLindex.get_search(usr)
@@ -143,9 +122,9 @@ def search():
     for i in range(len(list)):
         PT.add_row(list[i])
     print(PT)
-    menu()
+    menu(userid)
 
-def search_not_washed():
+def search_not_washed(userid):
     print("----------SØK ETTER UVASKEDE BØNNER FRA LAND----------")
     country = input("Søk etter land: ")
     list = SQLindex.get_search_not_washed(country)
@@ -154,6 +133,6 @@ def search_not_washed():
     for i in range(len(list)):
         PT.add_row(list[i])
     print(PT)
-    menu()
+    menu(userid)
 
-start()
+start(userid)

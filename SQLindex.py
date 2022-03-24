@@ -49,7 +49,7 @@ def getCoffeeID(Cname, Rname):
 
 def get_mostcoffee():
     cursor.execute(
-        "SELECT User.firstName, COUNT(DISTINCT Post.coffeeID) AS total from Post Inner join User on Post.mail = User.mail WHERE Post.date>='01-01-2022' group by User.firstName ORDER BY total DESC;")
+        "SELECT User.firstName, COUNT(DISTINCT Post.coffeeID) AS total from Post Inner join User on Post.mail = User.mail WHERE Post.date like '%2022%' group by User.firstName ORDER BY total DESC;")
     return cursor.fetchall()
 
 
