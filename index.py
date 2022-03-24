@@ -11,6 +11,7 @@ date = now.strftime("%d-%m-%Y")
 
 userid = ""
 
+
 def start():
     print("-----Velkommen til Kaffeapp-----\n")
     loglag = input("Logg inn: 1 \nLag bruker: 2\nSkip: 3\n")
@@ -70,11 +71,14 @@ def menu():
         mostValue()
     elif choose == "4":
         search()
+    elif choose == "5":
+        search_not_washed()
     elif choose == "6":
         exit()
     else:
         print("under dev")
         menu()
+
 
 def makePost():
     print("----------LAG POST----------")
@@ -94,8 +98,10 @@ def makePost():
         print("Feil verdier for kaffenavn eller kaffebrenneri")
         makePost()
 
+
 def seePost():
     print("----------SE POST----------")
+
 
 def makePost():
     print("----------LAG POST----------")
@@ -146,9 +152,25 @@ def search():
     usr = input("Søk: ")
     list = SQLindex.get_search(usr)
     PT = PrettyTable()
+    PT.field_names = ["Kaffenavn", "Brennerinavn"]
+    for i in range(len(list)):
+        PT.add_row(list[i])
+    print(PT)
+    menu()
+
+
+4
+
+
+def search_not_washed():
+    print("----------Kaffer fra Colombia og Rwanda hvor bønnene ikke er vasket ----------")
+    country = input("Colombia eller Rwanda? ")
+    list = SQLindex.get_search_not_washed(country)
+    PT = PrettyTable()
     PT.field_names = ["Brennerinavn", "Kaffenavn"]
     for i in range(len(list)):
         PT.add_row(list[i])
+        # print(list[i])
     print(PT)
     menu()
 
