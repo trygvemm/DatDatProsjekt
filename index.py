@@ -1,3 +1,7 @@
+#Datamodellering og databasesystemer TDT4145 Prosjekt delinnlevering 2
+#Gruppe 168 - Trygve Myhr, Bharat Premkumar, Sunil Sharma
+
+#import moduler
 from tokenize import String
 from datetime import date
 from User import User
@@ -5,59 +9,65 @@ from Post import Post
 from prettytable import PrettyTable
 import SQLindex
 
-# tid
+#Hente tid idag
 now = date.today()
 date = now.strftime("%d-%m-%Y")
 
 userid = ""
 
+#Startmeny
 def start(userid):
-    print("-----Velkommen til Kaffeapp-----\n")
+    print("-----Velkommen til Kaffeapp-----")
     loglag = input("Logg inn: 1 \nLag bruker: 2\nSkip: 3\n")
     if loglag == "1":
-        logIn()
+        logIn(userid)
     elif loglag == "2":
-        makeUser()
+        makeUser(userid)
     elif loglag == "3":
-        userid = "Bharat@gmail.com"
-        print("Du er logget inn som SUNIL")
+        userid = "test@test.com"
+        print("Du er logget inn som test")
         menu(userid)
     else:
-        print("feil input")
+        errormsg(1)
         start(userid)
 
-def makeUser():
+#Registrere bruker
+def makeUser(userid):
     print("----------LAG BRUKER----------")
     mail = input("Skriv inn mail: ")
     firstName = input("Skriv inn fornavn: ")
     lastName = input("Skriv inn etternavn: ")
     password = input("Skriv inn passord: ")
     user = User(mail, password, firstName, lastName)
-    SQLindex.insert_user(user)
-    logIn()
+    try:
+        SQLindex.insert_user(user)
+    except:
+        errormsg(2)
+    start(userid)
 
-def logIn():
+#Logg inn
+def logIn(userid):
     print("----------LOGG INN----------")
     mail = input("Skriv inn mail: ")
     password = input("Skriv inn passord: ")
     dbPassword = SQLindex.get_password(mail)
     if (dbPassword != None):
         if(dbPassword[0] == password):
-            print("Du er logget inn")
+            print(f"Du er logget inn som: {mail} ")
             userid = mail
             menu(userid)
         else:
-            print("Feil passord")
-            logIn()
+            errormsg(3)
+            logIn(userid)
     else:
-        print(f"Ingen brukere med mail: {mail}")
+        errormsg(4)
         start(userid)
 
+#Hovedmeny
 def menu(userid):
     print("----------MENY----------")
-    print(userid)
     choose = input(
-        "Lag Post: 1\nListe over hvem som har smakt flest kaffer: 2\nBest kaffe for pengene: 3\nSøk i beskrivelse: 4\nLand: 5\nEXIT: 6\n")
+        "Lag Post: 1\nListe over hvem som har smakt flest kaffer: 2\nBest kaffe for pengene: 3\nSøk i beskrivelse: 4\nSøk etter uvaskede kaffer fra Land: 5\nLOGG UT: 6\n")
     if choose == "1":
         makePost(userid)
     elif choose == "2":
@@ -71,14 +81,23 @@ def menu(userid):
     elif choose == "6":
         exit()
     else:
-        print("under dev")
+        errormsg(1)
         menu(userid)
 
+#Lag en post
 def makePost(userid):
     print("----------LAG POST----------")
     coffee = input("Skriv inn kaffenavn: ")
     roastery = input("Skriv inn brennerinavn: ")
-    score = int(input("Skriv inn score (1-10): "))
+    score = input("Skriv inn score (1-10): ")
+    try:
+        score = int(score)
+    except:
+        errormsg(6)
+        makePost(userid)
+    if(score > 10 or score < 0):
+        errormsg(6)
+        makePost(userid)
     note = input("Skriv inn beskrivelse: ")
 
     coffeeid = SQLindex.getCoffeeID(coffee, roastery)
@@ -88,9 +107,10 @@ def makePost(userid):
         print("Suksess, du har laget en post")
         menu(userid)
     else:
-        print("Feil verdier for kaffenavn eller kaffebrenneri")
-        makePost(userid)
+        errormsg(5)
+        menu(userid)
 
+#Skriv ut topplist for hvem som har smakt flest unike kaffer
 def topList(userid):
     print("----------TOPPLISTE----------")
     list = SQLindex.get_mostcoffee()
@@ -101,6 +121,7 @@ def topList(userid):
     print(PT)
     menu(userid)
 
+#Skriv ut liste over hvilken kaffe som gir mest for pengene
 def mostValue(userid):
     print("----------BEST KAFFE FOR PENGENE----------")
     list = SQLindex.get_mostvalue()
@@ -112,7 +133,7 @@ def mostValue(userid):
     print(PT)
     menu(userid)
 
-
+#Søk i beskrivelsen laget av en bruker eller kaffebrenneri
 def search(userid):
     print("----------SØK ETTER KAFFEBESKRIVELSE----------")
     usr = input("Søk: ")
@@ -124,6 +145,7 @@ def search(userid):
     print(PT)
     menu(userid)
 
+#søk etter kaffer som ikke er vasket fra land
 def search_not_washed(userid):
     print("----------SØK ETTER UVASKEDE BØNNER FRA LAND----------")
     country = input("Søk etter land: ")
@@ -135,4 +157,21 @@ def search_not_washed(userid):
     print(PT)
     menu(userid)
 
+#Skriv ut error
+def errormsg(n):
+    print("ERROR:")
+    if n == 1:
+        print("Feil input")
+    elif n == 2:
+        print("Denne mailen finnes:(")
+    elif n == 3:
+        print("Feil passord")
+    elif n == 4:
+        print("Ingen brukere med denne mailen")
+    elif n == 5:
+        print("Feil verdier for kaffenavn eller kaffebrenneri")
+    elif n == 6:
+        print("Skriv et tall mellom 1-10")
+
+#Kjør applikasjonen
 start(userid)
