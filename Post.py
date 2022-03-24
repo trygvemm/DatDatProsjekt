@@ -1,4 +1,3 @@
-
 class Post:
     def __init__(self, mail, coffeeID, note, score, date):
         self.mail = mail,
