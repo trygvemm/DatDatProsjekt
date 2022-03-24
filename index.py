@@ -11,7 +11,6 @@ date = now.strftime("%d-%m-%Y")
 
 userid = ""
 
-
 def start():
     print("-----Velkommen til Kaffeapp-----\n")
     loglag = input("Logg inn: 1 \nLag bruker: 2\nSkip: 3\n")
@@ -27,7 +26,6 @@ def start():
         print("feil input")
         start()
 
-
 def makeUser():
     print("----------LAG BRUKER----------")
     mail = input("Skriv inn mail: ")
@@ -37,7 +35,6 @@ def makeUser():
     user = User(mail, password, firstName, lastName)
     SQLindex.insert_user(user)
     logIn()
-
 
 def logIn():
     print("----------LOGG INN----------")
@@ -56,7 +53,6 @@ def logIn():
     else:
         print(f"Ingen brukere med mail: {mail}")
         start()
-
 
 def menu():
     print("----------MENY----------")
@@ -79,7 +75,6 @@ def menu():
         print("under dev")
         menu()
 
-
 def makePost():
     print("----------LAG POST----------")
     userid = 'Bharat@gmail.com'
@@ -97,11 +92,6 @@ def makePost():
     else:
         print("Feil verdier for kaffenavn eller kaffebrenneri")
         makePost()
-
-
-def seePost():
-    print("----------SE POST----------")
-
 
 def makePost():
     print("----------LAG POST----------")
@@ -121,7 +111,6 @@ def makePost():
         print("Feil verdier for kaffenavn eller kaffebrenneri")
         makePost()
 
-
 def topList():
     print("----------TOPPLISTE----------")
     # så langt i år????????
@@ -133,7 +122,6 @@ def topList():
     print(PT)
     menu()
 
-
 def mostValue():
     print("----------BEST KAFFE FOR PENGENE----------")
     list = SQLindex.get_mostvalue()
@@ -142,7 +130,6 @@ def mostValue():
                       "Pris/kg", "Gjennomsnittscore", "Pris/poeng"]
     for i in range(len(list)):
         PT.add_row(list[i])
-        # print(list[i])
     print(PT)
     menu()
 
@@ -158,21 +145,15 @@ def search():
     print(PT)
     menu()
 
-
-4
-
-
 def search_not_washed():
-    print("----------Kaffer fra Colombia og Rwanda hvor bønnene ikke er vasket ----------")
-    country = input("Colombia eller Rwanda? ")
+    print("----------SØK ETTER UVASKEDE BØNNER FRA LAND----------")
+    country = input("Søk etter land: ")
     list = SQLindex.get_search_not_washed(country)
     PT = PrettyTable()
     PT.field_names = ["Brennerinavn", "Kaffenavn"]
     for i in range(len(list)):
         PT.add_row(list[i])
-        # print(list[i])
     print(PT)
     menu()
-
 
 start()
