@@ -1,15 +1,24 @@
+import SQLindex
+from prettytable import PrettyTable
+from Post import Post
+from User import User
+from datetime import date
+from tokenize import String
+<< << << < HEAD
 # Datamodellering og databasesystemer TDT4145 Prosjekt delinnlevering 2
 # Gruppe 168 - Trygve Myhr, Bharat Premkumar, Sunil Sharma
+== == == =
+# Datamodellering og databasesystemer TDT4145  -  Prosjekt delinnlevering 2
+# Gruppe 168 - Trygve Myhr, Bharat Premkumar, Sunil Sharma
+>>>>>> > 0bcf3daf7c7f8ccb9772e50c9b9b0c153fbe5fdc
 
 #import moduler
-from tokenize import String
-from datetime import date
-from User import User
-from Post import Post
-from prettytable import PrettyTable
-import SQLindex
 
+<< << << < HEAD
 # Hente tid idag
+== == == =
+# Hente dagens dato
+>>>>>> > 0bcf3daf7c7f8ccb9772e50c9b9b0c153fbe5fdc
 now = date.today()
 date = now.strftime("%d-%m-%Y")
 
@@ -99,9 +108,8 @@ def makePost(userid):
     print("----------LAG POST----------")
     coffee = input("Skriv inn kaffenavn: ")
     roastery = input("Skriv inn brennerinavn: ")
-    score = input("Skriv inn score (1-10): ")
     try:
-        score = int(score)
+        score = int(input("Skriv inn score (1-10): "))
     except:
         errormsg(6)
         makePost(userid)
@@ -154,12 +162,16 @@ def search(userid):
     print("----------SØK ETTER KAFFEBESKRIVELSE----------")
     usr = input("Søk: ")
     list = SQLindex.get_search(usr)
-    PT = PrettyTable()
-    PT.field_names = ["Kaffenavn", "Brennerinavn"]
-    for i in range(len(list)):
-        PT.add_row(list[i])
-    print(PT)
-    menu(userid)
+    if list != []:
+        PT = PrettyTable()
+        PT.field_names = ["Kaffenavn", "Brennerinavn"]
+        for i in range(len(list)):
+            PT.add_row(list[i])
+        print(PT)
+        menu(userid)
+    else:
+        errormsg(7)
+        menu(userid)
 
 # søk etter kaffer som ikke er vasket fra land
 
@@ -168,22 +180,25 @@ def search_not_washed(userid):
     print("----------SØK ETTER UVASKEDE BØNNER FRA LAND----------")
     country = input("Søk etter land: ")
     list = SQLindex.get_search_not_washed(country)
-    PT = PrettyTable()
-    PT.field_names = ["Brennerinavn", "Kaffenavn"]
-    for i in range(len(list)):
-        PT.add_row(list[i])
-    print(PT)
-    menu(userid)
+    if list != []:
+        PT = PrettyTable()
+        PT.field_names = ["Brennerinavn", "Kaffenavn"]
+        for i in range(len(list)):
+            PT.add_row(list[i])
+        print(PT)
+        menu(userid)
+    else:
+        errormsg(7)
+        menu(userid)
 
 # Skriv ut error
 
 
 def errormsg(n):
-    print("ERROR:")
     if n == 1:
         print("Feil input")
     elif n == 2:
-        print("Denne mailen finnes:(")
+        print("Denne mailen finnes allerede")
     elif n == 3:
         print("Feil passord")
     elif n == 4:
@@ -192,6 +207,8 @@ def errormsg(n):
         print("Feil verdier for kaffenavn eller kaffebrenneri")
     elif n == 6:
         print("Skriv et tall mellom 1-10")
+    elif n == 7:
+        print("Ingen resultater")
 
 
 # Kjør applikasjonen
