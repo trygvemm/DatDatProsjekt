@@ -9,7 +9,7 @@ from Post import Post
 from prettytable import PrettyTable
 import SQLindex
 
-#Hente tid idag
+#Hente dagens dato
 now = date.today()
 date = now.strftime("%d-%m-%Y")
 
@@ -110,7 +110,7 @@ def makePost(userid):
         errormsg(5)
         menu(userid)
 
-#Skriv ut topplist for hvem som har smakt flest unike kaffer
+#Skriv ut toppliste for hvem som har smakt flest unike kaffer
 def topList(userid):
     print("----------TOPPLISTE----------")
     list = SQLindex.get_mostcoffee()
@@ -138,32 +138,39 @@ def search(userid):
     print("----------SØK ETTER KAFFEBESKRIVELSE----------")
     usr = input("Søk: ")
     list = SQLindex.get_search(usr)
-    PT = PrettyTable()
-    PT.field_names = ["Kaffenavn", "Brennerinavn"]
-    for i in range(len(list)):
-        PT.add_row(list[i])
-    print(PT)
-    menu(userid)
+    if list != []:
+        PT = PrettyTable()
+        PT.field_names = ["Kaffenavn", "Brennerinavn"]
+        for i in range(len(list)):
+            PT.add_row(list[i])
+        print(PT)
+        menu(userid)
+    else:
+        errormsg(7)
+        menu(userid)
 
 #søk etter kaffer som ikke er vasket fra land
 def search_not_washed(userid):
     print("----------SØK ETTER UVASKEDE BØNNER FRA LAND----------")
     country = input("Søk etter land: ")
     list = SQLindex.get_search_not_washed(country)
-    PT = PrettyTable()
-    PT.field_names = ["Brennerinavn", "Kaffenavn"]
-    for i in range(len(list)):
-        PT.add_row(list[i])
-    print(PT)
-    menu(userid)
+    if list != []:
+        PT = PrettyTable()
+        PT.field_names = ["Brennerinavn", "Kaffenavn"]
+        for i in range(len(list)):
+            PT.add_row(list[i])
+        print(PT)
+        menu(userid)
+    else:
+        errormsg(7)
+        menu(userid)
 
 #Skriv ut error
 def errormsg(n):
-    print("ERROR:")
     if n == 1:
         print("Feil input")
     elif n == 2:
-        print("Denne mailen finnes:(")
+        print("Denne mailen finnes allerede")
     elif n == 3:
         print("Feil passord")
     elif n == 4:
@@ -172,6 +179,8 @@ def errormsg(n):
         print("Feil verdier for kaffenavn eller kaffebrenneri")
     elif n == 6:
         print("Skriv et tall mellom 1-10")
+    elif n == 7:
+        print("Ingen resultater")
 
 #Kjør applikasjonen
 start(userid)

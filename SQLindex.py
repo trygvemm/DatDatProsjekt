@@ -28,7 +28,7 @@ def insert_user(user):
 def insert_post(post):
     with connection:
         cursor.execute("INSERT INTO Post (mail, coffeeID, note, score, date) VALUES (:mail, :coffeeID, :note, :score, :date)", {
-            'mail': post.mail[0], 'coffeeID': post.coffeeID[0], 'note': post.note[0], 'score': post.score[0], 'date': post.date})
+            'mail': post.mail, 'coffeeID': post.coffeeID, 'note': post.note, 'score': post.score, 'date': post.date})
 
 #Hente passord for validering
 def get_password(mail):
