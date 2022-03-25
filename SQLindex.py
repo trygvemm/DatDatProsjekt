@@ -51,7 +51,7 @@ def get_mostcoffee():
 #Hente liste over kaffe som gir mest for pengene
 def get_mostvalue():
     cursor.execute(
-        "SELECT CoffeeRoastery.name, Coffee.coffeeName, Coffee.priceKG, AVG(Post.score), Coffee.priceKG/AVG(Post.score) AS prisperpoeng from Post INNER JOIN Coffee ON Coffee.coffeeID = Post.coffeeID INNER JOIN CoffeeRoastery ON CoffeeRoastery.roasteryID = Coffee.roasteryID GROUP BY Coffee.coffeeName ORDER BY prisperpoeng;")
+        "SELECT CoffeeRoastery.name, Coffee.coffeeName, Coffee.priceKG, round(AVG(Post.score),2), round(Coffee.priceKG/AVG(Post.score),2) AS prisperpoeng from Post INNER JOIN Coffee ON Coffee.coffeeID = Post.coffeeID INNER JOIN CoffeeRoastery ON CoffeeRoastery.roasteryID = Coffee.roasteryID GROUP BY Coffee.coffeeName ORDER BY prisperpoeng, AVG(Post.score) DESC;")
     return cursor.fetchall()
 
 #Søke i beskrivelse
