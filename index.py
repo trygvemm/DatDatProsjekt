@@ -18,15 +18,11 @@ userid = ""
 #Startmeny
 def start(userid):
     print("-----Velkommen til Kaffeapp-----")
-    loglag = input("1 | Logg inn\n2 | Lag bruker\n3 | Skip\n")
+    loglag = input("1 | Logg inn\n2 | Lag bruker\n")
     if loglag == "1":
         logIn(userid)
     elif loglag == "2":
         makeUser(userid)
-    elif loglag == "3":
-        userid = "test@test.com"
-        print("Du er logget inn som test")
-        menu(userid)
     else:
         errormsg(1)
         start(userid)
