@@ -1,4 +1,4 @@
-#Datamodellering og databasesystemer TDT4145 Prosjekt delinnlevering 2
+#Datamodellering og databasesystemer TDT4145  -  Prosjekt delinnlevering 2
 #Gruppe 168 - Trygve Myhr, Bharat Premkumar, Sunil Sharma
 
 #import moduler
