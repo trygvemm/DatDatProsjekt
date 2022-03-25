@@ -63,5 +63,5 @@ def get_search(search):
 #Søk etter land
 def get_search_not_washed(country):
     cursor.execute(
-        "SELECT DISTINCT Coffee.coffeeName, CoffeeRoastery.name FROM Coffee INNER JOIN CoffeeRoastery ON Coffee.roasteryID = CoffeeRoastery.roasteryID INNER JOIN Batch on Coffee.batchID = Batch.batchID INNER JOIN Farm on Batch.farmID = Farm.farmID INNER JOIN ProcessingMethod on Batch.methodID = ProcessingMethod.methodID WHERE ProcessingMethod.name NOT LIKE '%Vasket%' AND Farm.country LIKE :country OR Farm.country LIKE :country", {'country': '%'+country+'%'})
+        "SELECT DISTINCT Coffee.coffeeName, CoffeeRoastery.name FROM Coffee INNER JOIN CoffeeRoastery ON Coffee.roasteryID = CoffeeRoastery.roasteryID INNER JOIN Batch on Coffee.batchID = Batch.batchID INNER JOIN Farm on Batch.farmID = Farm.farmID INNER JOIN ProcessingMethod on Batch.methodID = ProcessingMethod.methodID WHERE ProcessingMethod.name NOT LIKE '%Vasket%' AND Farm.country LIKE :country", {'country': '%'+country+'%'})
     return cursor.fetchall()
