@@ -89,9 +89,8 @@ def makePost(userid):
     print("----------LAG POST----------")
     coffee = input("Skriv inn kaffenavn: ")
     roastery = input("Skriv inn brennerinavn: ")
-    score = input("Skriv inn score (1-10): ")
     try:
-        score = int(score)
+        score = int(input("Skriv inn score (1-10): "))
     except:
         errormsg(6)
         makePost(userid)
