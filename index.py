@@ -1,5 +1,5 @@
-#Datamodellering og databasesystemer TDT4145 Prosjekt delinnlevering 2
-#Gruppe 168 - Trygve Myhr, Bharat Premkumar, Sunil Sharma
+# Datamodellering og databasesystemer TDT4145 Prosjekt delinnlevering 2
+# Gruppe 168 - Trygve Myhr, Bharat Premkumar, Sunil Sharma
 
 #import moduler
 from tokenize import String
@@ -9,13 +9,15 @@ from Post import Post
 from prettytable import PrettyTable
 import SQLindex
 
-#Hente tid idag
+# Hente tid idag
 now = date.today()
 date = now.strftime("%d-%m-%Y")
 
 userid = ""
 
-#Startmeny
+# Startmeny
+
+
 def start(userid):
     print("-----Velkommen til Kaffeapp-----")
     loglag = input("Logg inn: 1 \nLag bruker: 2\nSkip: 3\n")
@@ -31,7 +33,9 @@ def start(userid):
         errormsg(1)
         start(userid)
 
-#Registrere bruker
+# Registrere bruker
+
+
 def makeUser(userid):
     print("----------LAG BRUKER----------")
     mail = input("Skriv inn mail: ")
@@ -45,7 +49,9 @@ def makeUser(userid):
         errormsg(2)
     start(userid)
 
-#Logg inn
+# Logg inn
+
+
 def logIn(userid):
     print("----------LOGG INN----------")
     mail = input("Skriv inn mail: ")
@@ -63,7 +69,9 @@ def logIn(userid):
         errormsg(4)
         start(userid)
 
-#Hovedmeny
+# Hovedmeny
+
+
 def menu(userid):
     print("----------MENY----------")
     choose = input(
@@ -84,7 +92,9 @@ def menu(userid):
         errormsg(1)
         menu(userid)
 
-#Lag en post
+# Lag en post
+
+
 def makePost(userid):
     print("----------LAG POST----------")
     coffee = input("Skriv inn kaffenavn: ")
@@ -110,7 +120,9 @@ def makePost(userid):
         errormsg(5)
         menu(userid)
 
-#Skriv ut topplist for hvem som har smakt flest unike kaffer
+# Skriv ut topplist for hvem som har smakt flest unike kaffer
+
+
 def topList(userid):
     print("----------TOPPLISTE----------")
     list = SQLindex.get_mostcoffee()
@@ -121,7 +133,9 @@ def topList(userid):
     print(PT)
     menu(userid)
 
-#Skriv ut liste over hvilken kaffe som gir mest for pengene
+# Skriv ut liste over hvilken kaffe som gir mest for pengene
+
+
 def mostValue(userid):
     print("----------BEST KAFFE FOR PENGENE----------")
     list = SQLindex.get_mostvalue()
@@ -133,7 +147,9 @@ def mostValue(userid):
     print(PT)
     menu(userid)
 
-#Søk i beskrivelsen laget av en bruker eller kaffebrenneri
+# Søk i beskrivelsen laget av en bruker eller kaffebrenneri
+
+
 def search(userid):
     print("----------SØK ETTER KAFFEBESKRIVELSE----------")
     usr = input("Søk: ")
@@ -145,7 +161,9 @@ def search(userid):
     print(PT)
     menu(userid)
 
-#søk etter kaffer som ikke er vasket fra land
+# søk etter kaffer som ikke er vasket fra land
+
+
 def search_not_washed(userid):
     print("----------SØK ETTER UVASKEDE BØNNER FRA LAND----------")
     country = input("Søk etter land: ")
@@ -157,7 +175,9 @@ def search_not_washed(userid):
     print(PT)
     menu(userid)
 
-#Skriv ut error
+# Skriv ut error
+
+
 def errormsg(n):
     print("ERROR:")
     if n == 1:
@@ -173,5 +193,6 @@ def errormsg(n):
     elif n == 6:
         print("Skriv et tall mellom 1-10")
 
-#Kjør applikasjonen
+
+# Kjør applikasjonen
 start(userid)
