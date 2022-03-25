@@ -18,7 +18,7 @@ userid = ""
 #Startmeny
 def start(userid):
     print("-----Velkommen til Kaffeapp-----")
-    loglag = input("Logg inn: 1 \nLag bruker: 2\nSkip: 3\n")
+    loglag = input("1 | Logg inn\n2 | Lag bruker\n3 | Skip\n")
     if loglag == "1":
         logIn(userid)
     elif loglag == "2":
@@ -66,8 +66,7 @@ def logIn(userid):
 #Hovedmeny
 def menu(userid):
     print("----------MENY----------")
-    choose = input(
-        "Lag Post: 1\nListe over hvem som har smakt flest kaffer: 2\nBest kaffe for pengene: 3\nSøk i beskrivelse: 4\nSøk etter uvaskede kaffer fra Land: 5\nLOGG UT: 6\n")
+    choose = input("1 | Lag Post\n2 | Liste over hvem som har smakt flest kaffer\n3 | Best kaffe for pengene\n4 | Søk i beskrivelse\n5 | Søk etter uvaskede kaffer fra Land\n6 | LOGG UT\n")
     if choose == "1":
         makePost(userid)
     elif choose == "2":
