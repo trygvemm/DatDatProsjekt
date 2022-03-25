@@ -162,7 +162,7 @@ def search_not_washed(userid):
 #Skriv ut error
 def errormsg(n):
     if n == 1:
-        print("Feil input")
+        print("Velg en av tallene i menyen")
     elif n == 2:
         print("Denne mailen finnes allerede")
     elif n == 3:
